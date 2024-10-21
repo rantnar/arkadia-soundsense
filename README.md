@@ -1,4 +1,4 @@
-# arkadia-soundsense
+# arkadia_soundsense
 More than beep or boop.
 
 Plugin do gry Arkadia MUD zwiększający imersję gry poprzez odtwarzanie dźwięków na podstawie wydarzeń pojawiających się na ekranie gry.
