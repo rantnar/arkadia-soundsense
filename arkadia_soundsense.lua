@@ -46,9 +46,31 @@ end
 -- Function to register sound handlers
 function arkadia_soundsense:register_sound_handler(pattern, sound)
     registerAnonymousEventHandler("gmcp.gmcp_msgs.decoded", function()
-        local message = ansi2string(gmcp.gmcp_msgs.decoded)
-        if message:find(pattern) then
-            arkadia_soundsense:play_sound(sound)
+        if gmcp.gmcp_msgs then
+            local lines = {}
+            local numberOfExtraLines = getLineCount() - getLineNumber()
+            while true do
+                local currentLine = getCurrentLine():trim()
+                table.insert(lines, currentLine)
+                selectCurrentLine()
+                copy()
+                deleteLine()
+                if currentLine:ends(".") or currentLine:ends("?") or currentLine:ends("!") or currentLine == "ERROR: invalid line number" or currentLine == "" then
+                    break
+                end
+                if #lines >= numberOfExtraLines then
+                    scripts:print_log("Cos poszlo nie tak. Zglos blad zalaczajac linie ponizej.", true)
+                    display({
+                        type = gmcp.gmcp_msgs.type,
+                        lines = lines
+                    })
+                    break
+                end
+            end
+            local message = table.concat(lines, " ")
+            if message:find(pattern) then
+                arkadia_soundsense:play_sound(sound)
+            end
         end
     end)
 end
