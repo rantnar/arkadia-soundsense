@@ -45,7 +45,7 @@ end
 
 -- Function to register sound handlers
 function arkadia_soundsense:register_sound_handler(pattern, sound)
-    registerAnonymousEventHandler("gmcp.gmcp_msgs.decoded", function()
+    registerAnonymousEventHandler("gmcp.gmcp_msgs", function()
         if gmcp.gmcp_msgs then
             local lines = {}
             local numberOfExtraLines = getLineCount() - getLineNumber()
@@ -70,6 +70,10 @@ function arkadia_soundsense:register_sound_handler(pattern, sound)
             local message = table.concat(lines, " ")
             if message:find(pattern) then
                 arkadia_soundsense:play_sound(sound)
+                --display message  if sound was played
+                cecho("\n<" .. pattern .. "> " .. message .. "\n")
+                
+
             end
         end
     end)
